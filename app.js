@@ -313,6 +313,48 @@
       render();
     } catch { /* Keep the currently valid library if another tab writes invalid data. */ }
   });
+    // Store layout preference separately from the user's books.
+  const VIEW_KEY = 'chapter.view.v1';
+
+  function setLibraryView(view, remember = true) {
+    const selectedView = view === 'list' ? 'list' : 'grid';
+
+    $('#book-grid').classList.toggle(
+      'list-view',
+      selectedView === 'list'
+    );
+
+    document.querySelectorAll('[data-view]').forEach((button) => {
+      button.setAttribute(
+        'aria-pressed',
+        String(button.dataset.view === selectedView)
+      );
+    });
+
+    if (remember) {
+      try {
+        localStorage.setItem(VIEW_KEY, selectedView);
+      } catch {
+        // The layout still works if preferences cannot be saved.
+      }
+    }
+  }
+
+  let initialView = 'grid';
+
+  try {
+    initialView = localStorage.getItem(VIEW_KEY) || 'grid';
+  } catch {
+    // Use the default layout when storage is unavailable.
+  }
+
+  document.querySelectorAll('[data-view]').forEach((button) => {
+    button.addEventListener('click', () => {
+      setLibraryView(button.dataset.view);
+    });
+  });
+
+  setLibraryView(initialView, false);
   loadBooks();
   render();
 })();
