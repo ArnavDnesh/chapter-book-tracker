@@ -19,33 +19,44 @@
 
 **What happened:** The assistant stored the complete book records as JSON and restored them on load. Refresh testing confirmed that both books and their changed statuses persisted. A separate two-tab test exposed a real synchronization bug, described below, and the assistant corrected it.
 
-## 4. Design and interaction
+### Prompt 4: Design and interaction
 
-**Prompt excerpt:** “also the website ui should be clean and modern like with best designs and also maybe interactive elements too.
+Now I'd like to polish the look and feel. I want the site to be clean and 
+modern, like the best designs out there, with some interactive elements.
 
-**What happened:** The assistant chose the name Chapter, a warm paper/green palette, original book-inspired CSS artwork, status filters, reading counts, and delete with undo. The browser preview was inspected at desktop, 390-pixel, and 320-pixel widths. A clipped decorative illustration on phones was removed at that breakpoint so the reading introduction retains a clear layout.
+Here's the direction I have in mind:
+- Name the site "Chapter", with a warm paper-and-green colour palette.
+- Use original, book-inspired artwork made with CSS (no copyrighted images).
+- Add status filters (All, To read, Reading, Finished) and a small count 
+  of what I'm currently reading.
+- Make delete forgiving by offering an Undo after a book is removed.
+- Add subtle hover, focus, and transition states that feel responsive 
+  without being distracting.
 
-Add pages-read progress
+Please check the layout at desktop width, 390px, and 320px. If any 
+decorative element gets clipped on small screens, remove it at that 
+breakpoint so the main content stays clear.
 
-## 5. When I search for 'ben', nothing shows, but the book 'Aadujeevitham' by 'Benyamin' is in the list.
 
-With All books selected, searching for "ben" should show
-"Aadujeevitham" by "Benyamin". Search should match partial text
-in either the title or author, without case sensitivity--this applies to any book with any author or book name
+## Pages-read progress feels like the right next feature. Can we work on that?
 
-## 6. Add pages-read progress
-
-> Pages-read progress is good to be the next feature. can we work on that
-
-**What the AI supplied:**
-
-- Optional total-pages and pages-read fields in the add-book form.
+What I'd like:
+- Optional "total pages" and "pages read" fields in the add-book form.
 - A progress bar and percentage on each book card.
-- An expandable control for updating page counts.
-- Validation for whole numbers and sensible page ranges.
-- Persistence of totalPages and pagesRead.
-- Defaults for older books that have no page-count fields.
-- Keyboard focus restoration after saving progress.
+- An expandable control on each card to update the page counts later.
+- Persistence for totalPages and pagesRead, with sensible defaults for 
+  older books that don't have these fields yet.
+- Keyboard focus returned to a sensible place after saving progress.
+
+Rules for the data:
+1. Page counts are optional.
+2. Pages read must be a non-negative whole number.
+3. Total pages, if given, must be a positive whole number.
+4. Pages read can't exceed total pages.
+5. A positive pages-read value requires a total page count.
+6. Round the percentage down, so an unfinished book never shows 100%.
+7. Status stays under my control. Hitting 100% should not automatically 
+   mark the book as Finished.
 
 **Important implementation decisions:**
 
