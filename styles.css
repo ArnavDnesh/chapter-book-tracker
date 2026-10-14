@@ -288,3 +288,129 @@ html {
     transform: none;
   }
 }
+/* Pages-read progress */
+
+.page-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.page-inputs > * {
+  min-width: 0;
+}
+
+.pages-help {
+  margin: -4px 0 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.reading-progress {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+
+.progress-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 9px;
+  font-size: 12px;
+  color: #596653;
+  overflow-wrap: anywhere;
+}
+
+.progress-heading strong {
+  color: var(--green);
+}
+
+.page-meter {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: #e7ece3;
+}
+
+.page-meter::-webkit-progress-bar {
+  background: #e7ece3;
+  border-radius: 999px;
+}
+
+.page-meter::-webkit-progress-value {
+  background: linear-gradient(90deg, #204a3b, #6f946a);
+  border-radius: 999px;
+}
+
+.page-meter::-moz-progress-bar {
+  background: #204a3b;
+  border-radius: 999px;
+}
+
+.progress-placeholder {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.progress-editor summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.progress-editor summary:focus-visible {
+  outline: 3px solid #c57c49;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.page-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: #596653;
+}
+
+.page-label input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.page-editor-form .button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .page-label input,
+  #book-total-pages,
+  #book-pages-read {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .reading-progress .page-inputs {
+    grid-template-columns: 1fr;
+  }
+}
