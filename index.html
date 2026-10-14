@@ -99,7 +99,37 @@
   <dialog id="book-dialog" aria-labelledby="dialog-title"><form id="book-form" novalidate><div class="dialog-heading"><span class="dialog-symbol"><svg class="icon"><use href="#i-book"/></svg></span><button type="button" class="icon-button" id="close-dialog" aria-label="Close add book dialog"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="eyebrow">MAKE ROOM FOR A NEW STORY</p><h2 id="dialog-title">Add to your shelf.</h2><p class="dialog-description">A few details, a whole new world to explore.</p>
       <div class="form-field"><label for="book-title">Book title <span aria-hidden="true">*</span></label><input id="book-title" name="title" placeholder="e.g. Aadujeevitham" required maxlength="200" aria-describedby="title-error" autocomplete="off"><p class="field-error" id="title-error" hidden></p></div>
       <div class="form-field"><label for="book-author">Author <span aria-hidden="true">*</span></label><input id="book-author" name="author" placeholder="e.g. Benyamin" required maxlength="200" aria-describedby="author-error" autocomplete="off"><p class="field-error" id="author-error" hidden></p></div>
-      <div class="form-field"><label for="book-status">Reading status</label><select id="book-status" name="status"><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div>
+      <div class="page-inputs">
+  <div class="form-field">
+    <label for="book-total-pages">Total pages</label>
+    <input
+      id="book-total-pages"
+      name="totalPages"
+      type="number"
+      min="1"
+      step="1"
+      inputmode="numeric"
+      placeholder="e.g. 300"
+    >
+  </div>
+
+  <div class="form-field">
+    <label for="book-pages-read">Pages read</label>
+    <input
+      id="book-pages-read"
+      name="pagesRead"
+      type="number"
+      min="0"
+      step="1"
+      inputmode="numeric"
+      value="0"
+    >
+  </div>
+</div>
+
+<p class="pages-help">
+  Page counts are optional. Update your reading status separately.
+</p><div class="form-field"><label for="book-status">Reading status</label><select id="book-status" name="status"><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div>
       <p class="form-note"><svg class="icon"><use href="#i-lock"/></svg>Stored in this browser. No account needed.</p><div class="dialog-footer"><button type="button" class="button secondary" id="cancel-dialog">Cancel</button><button type="submit" class="button primary"><svg class="icon"><use href="#i-plus"/></svg>Add book</button></div>
     </form></dialog>
   <div class="toast" id="toast" hidden><span id="toast-text" role="status" aria-live="polite"></span><button id="undo-delete" hidden>Undo</button><button class="toast-close" id="close-toast" aria-label="Dismiss notification"><svg class="icon"><use href="#i-close"/></svg></button></div>
