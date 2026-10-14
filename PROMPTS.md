@@ -51,8 +51,6 @@ if (event.key !== STORAGE_KEY && event.key !== null) return;
 
 **What this demonstrates:** A normal one-tab refresh test was insufficient to reveal the issue. Reproducing the exact sequence made the cause visible, and repeating it after the change verified the correction. Local storage still has limits for genuinely simultaneous writes; the app does not claim collaborative-database guarantees.
 
-## Suggested follow-up prompt (not yet sent by the user)
+## Suggested follow-up prompt
 
 “Walk me through the data flow from submitting a book to saving and restoring it. Then ask me to explain why the original cross-tab bug occurred. Do not give me the answer until I have tried.”
-
-This is a suggested learning prompt, not a historical log entry.
