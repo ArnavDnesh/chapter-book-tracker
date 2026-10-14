@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#204a3b">
+  <meta name="description" content="A little space for your reading life. Track books, find your next read, and celebrate every finished chapter.">
+  <title>Chapter — Your personal reading space</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#library">Skip to your books</a>
+  <svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+    <symbol id="i-shelf" viewBox="0 0 24 24"><path d="M3 21h18M4 4h4v14H4zm6 0h4v14h-4zm6 2 4-1 3 13-4 1z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></symbol>
+  </defs></svg>
+
+  <aside class="sidebar" aria-label="Library navigation">
+    <a class="brand" href="./" aria-label="Chapter home"><span class="brand-icon"><svg class="icon"><use href="#i-book"/></svg></span>chapter<span class="brand-period">.</span></a>
+    <p class="sidebar-caption">A home for your reading life.</p>
+    <span class="nav-label">YOUR SPACE</span>
+    <nav class="side-nav" aria-label="Book status">
+      <button class="nav-item active" data-filter="all" aria-pressed="true"><svg class="icon"><use href="#i-shelf"/></svg><span>All books</span><span class="nav-count" data-count="all">0</span></button>
+      <button class="nav-item" data-filter="to-read" aria-pressed="false"><span class="status-dot to-read"></span><span>To read</span><span class="nav-count" data-count="to-read">0</span></button>
+      <button class="nav-item" data-filter="reading" aria-pressed="false"><span class="status-dot reading"></span><span>Reading</span><span class="nav-count" data-count="reading">0</span></button>
+      <button class="nav-item" data-filter="finished" aria-pressed="false"><span class="status-dot finished"></span><span>Finished</span><span class="nav-count" data-count="finished">0</span></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="reading-note"><svg class="icon"><use href="#i-spark"/></svg><p>Make a little room<br>for a good book.</p><span>ONE PAGE AT A TIME</span></div>
+      <div class="local-note"><svg class="icon"><use href="#i-lock"/></svg><span>Your books stay in this browser.</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <a class="mobile-brand" href="./">chapter<span>.</span></a>
+      <span class="breadcrumb">My space <span>/</span> <strong>Library</strong></span>
+      <div class="topbar-actions"><span class="save-note" id="save-note"><span></span>Saved on this device</span><button class="button primary" data-add><svg class="icon"><use href="#i-plus"/></svg>Add a book</button></div>
+    </header>
+
+    <div class="page-content">
+      <div class="storage-warning" id="storage-warning" role="alert" hidden><p id="storage-message"></p><div id="recovery-actions" hidden><button class="button small" id="backup-data">Download backup</button><button class="text-button" id="reset-data">Start a new library</button></div></div>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow"><span></span>YOUR PERSONAL READING SPACE</p><h1 id="hero-title">Life happens.<br><em>Keep turning pages.</em></h1><p class="hero-description">The books you’re curious about. The ones you’re lost in.<br class="desktop-break"> And every story you’ve made your own.</p><a class="hero-link" href="#library">Find your next chapter <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="art-orbit"></span><span class="art-star star-one">✳</span><span class="art-star star-two">✦</span>
+          <div class="art-book book-back"><span>THE ART OF<br>SLOW LIVING</span><i></i></div>
+          <div class="art-book book-front"><span class="art-book-small">A LITTLE EVERY DAY</span><strong>One<br>more<br><em>chapter.</em></strong><span class="art-book-line"></span><span class="art-book-bottom">A WORLD BETWEEN THE PAGES</span></div>
+          <span class="art-caption">a small habit, a whole new world</span>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="Reading overview">
+        <button class="stat" data-filter="all" aria-pressed="true"><span class="stat-icon stat-all"><svg class="icon"><use href="#i-shelf"/></svg></span><span><span class="stat-number" data-count="all">0</span><span class="stat-label">Books on your shelf</span></span></button>
+        <button class="stat" data-filter="to-read" aria-pressed="false"><span class="stat-icon stat-to-read"><svg class="icon"><use href="#i-plus"/></svg></span><span><span class="stat-number" data-count="to-read">0</span><span class="stat-label">Waiting to be opened</span></span></button>
+        <button class="stat" data-filter="reading" aria-pressed="false"><span class="stat-icon stat-reading"><svg class="icon"><use href="#i-book"/></svg></span><span><span class="stat-number" data-count="reading">0</span><span class="stat-label">Currently reading</span></span></button>
+        <button class="stat" data-filter="finished" aria-pressed="false"><span class="stat-icon stat-finished"><svg class="icon"><use href="#i-check"/></svg></span><span><span class="stat-number" data-count="finished">0</span><span class="stat-label">Stories completed</span></span></button>
+      </section>
+
+      <section class="library" id="library" aria-labelledby="library-title">
+        <div class="library-heading"><div><p class="eyebrow">COLLECT STORIES, NOT DUST</p><h2 id="library-title">Your bookshelf<span>.</span></h2></div><span class="sort-note">Newest additions first <span aria-hidden="true">↓</span></span></div>
+        <div class="library-tools"><div class="filter-tabs" role="group" aria-label="Filter books"><button class="filter-tab active" data-filter="all" aria-pressed="true">All books <span data-count="all">0</span></button><button class="filter-tab" data-filter="to-read" aria-pressed="false">To read</button><button class="filter-tab" data-filter="reading" aria-pressed="false">Reading</button><button class="filter-tab" data-filter="finished" aria-pressed="false">Finished</button></div><div class="search-field"><svg class="icon"><use href="#i-search"/></svg><label class="sr-only" for="search">Search by title or author</label><input id="search" type="search" placeholder="Search title or author…" autocomplete="off"><button class="search-clear" id="clear-search" aria-label="Clear search" hidden><svg class="icon"><use href="#i-close"/></svg></button><kbd id="search-hint" aria-hidden="true">/</kbd></div></div>
+        <p class="result-count" id="result-count" role="status" aria-live="polite"></p>
+        <div class="book-grid" id="book-grid"></div>
+        <div class="empty-state" id="empty-state">
+          <div class="empty-illustration" aria-hidden="true"><span></span><svg class="icon"><use href="#i-book"/></svg><i>✦</i></div>
+          <h3 id="empty-title">Every good shelf starts with one book.</h3><p id="empty-copy">A future favourite is waiting. Add your first book<br>and make this little space your own.</p>
+          <button class="button primary" id="empty-action"><svg class="icon"><use href="#i-plus"/></svg><span>Add your first book</span></button>
+          <button class="text-button sample-button" id="sample-books">Or explore with 3 sample books <span aria-hidden="true">↗</span></button>
+        </div>
+      </section>
+      <footer><span class="footer-brand">chapter.</span><span>A little space for a lifelong habit.</span><span class="footer-tip">Press <kbd>N</kbd> to add a book</span></footer>
+    </div>
+  </main>
+
+  <dialog id="book-dialog" aria-labelledby="dialog-title"><form id="book-form" novalidate><div class="dialog-heading"><span class="dialog-symbol"><svg class="icon"><use href="#i-book"/></svg></span><button type="button" class="icon-button" id="close-dialog" aria-label="Close add book dialog"><svg class="icon"><use href="#i-close"/></svg></button></div><p class="eyebrow">MAKE ROOM FOR A NEW STORY</p><h2 id="dialog-title">Add to your shelf.</h2><p class="dialog-description">A few details, a whole new world to explore.</p>
+      <div class="form-field"><label for="book-title">Book title <span aria-hidden="true">*</span></label><input id="book-title" name="title" placeholder="e.g. Aadujeevitham" required maxlength="200" aria-describedby="title-error" autocomplete="off"><p class="field-error" id="title-error" hidden></p></div>
+      <div class="form-field"><label for="book-author">Author <span aria-hidden="true">*</span></label><input id="book-author" name="author" placeholder="e.g. Benyamin" required maxlength="200" aria-describedby="author-error" autocomplete="off"><p class="field-error" id="author-error" hidden></p></div>
+      <div class="form-field"><label for="book-status">Reading status</label><select id="book-status" name="status"><option value="to-read">To read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></div>
+      <p class="form-note"><svg class="icon"><use href="#i-lock"/></svg>Stored in this browser. No account needed.</p><div class="dialog-footer"><button type="button" class="button secondary" id="cancel-dialog">Cancel</button><button type="submit" class="button primary"><svg class="icon"><use href="#i-plus"/></svg>Add book</button></div>
+    </form></dialog>
+  <div class="toast" id="toast" hidden><span id="toast-text" role="status" aria-live="polite"></span><button id="undo-delete" hidden>Undo</button><button class="toast-close" id="close-toast" aria-label="Dismiss notification"><svg class="icon"><use href="#i-close"/></svg></button></div>
+</body>
+</html>
