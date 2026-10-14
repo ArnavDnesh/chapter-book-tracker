@@ -32,7 +32,35 @@
         throw new Error('Invalid saved book');
       }
       ids.add(book.id);
-      return { id: book.id, title: book.title, author: book.author, status: book.status, createdAt: book.createdAt };
+            // Older books do not have page counts yet.
+      const totalPages = book.totalPages ?? null;
+      const pagesRead = book.pagesRead ?? 0;
+
+      const validTotal =
+        totalPages === null ||
+        (Number.isSafeInteger(totalPages) && totalPages > 0);
+
+      const validRead =
+        Number.isSafeInteger(pagesRead) && pagesRead >= 0;
+
+      if (
+        !validTotal ||
+        !validRead ||
+        (totalPages === null && pagesRead !== 0) ||
+        (totalPages !== null && pagesRead > totalPages)
+      ) {
+        throw new Error('Invalid saved reading progress');
+      }
+
+      return {
+        id: book.id,
+        title: book.title,
+        author: book.author,
+        status: book.status,
+        createdAt: book.createdAt,
+        totalPages,
+        pagesRead
+      };
     }).sort((a, b) => b.createdAt - a.createdAt);
   }
 
