@@ -71,7 +71,20 @@
         <div class="library-heading"><div><p class="eyebrow">COLLECT STORIES, NOT DUST</p><h2 id="library-title">Your bookshelf<span>.</span></h2></div><span class="sort-note">Newest additions first <span aria-hidden="true">↓</span></span></div>
         <div class="library-tools"><div class="filter-tabs" role="group" aria-label="Filter books"><button class="filter-tab active" data-filter="all" aria-pressed="true">All books <span data-count="all">0</span></button><button class="filter-tab" data-filter="to-read" aria-pressed="false">To read</button><button class="filter-tab" data-filter="reading" aria-pressed="false">Reading</button><button class="filter-tab" data-filter="finished" aria-pressed="false">Finished</button></div><div class="search-field"><svg class="icon"><use href="#i-search"/></svg><label class="sr-only" for="search">Search by title or author</label><input id="search" type="search" placeholder="Search title or author…" autocomplete="off"><button class="search-clear" id="clear-search" aria-label="Clear search" hidden><svg class="icon"><use href="#i-close"/></svg></button><kbd id="search-hint" aria-hidden="true">/</kbd></div></div>
         <p class="result-count" id="result-count" role="status" aria-live="polite"></p>
-        <div class="book-grid" id="book-grid"></div>
+        <div class="library-view">
+  <span class="view-label">Make yourself comfortable</span>
+
+  <div class="view-switch" role="group" aria-label="Bookshelf layout">
+    <button type="button" data-view="grid" aria-pressed="true">
+      Grid
+    </button>
+    <button type="button" data-view="list" aria-pressed="false">
+      List
+    </button>
+  </div>
+</div>
+
+<div class="book-grid" id="book-grid"></div>
         <div class="empty-state" id="empty-state">
           <div class="empty-illustration" aria-hidden="true"><span></span><svg class="icon"><use href="#i-book"/></svg><i>✦</i></div>
           <h3 id="empty-title">Every good shelf starts with one book.</h3><p id="empty-copy">A future favourite is waiting. Add your first book<br>and make this little space your own.</p>
