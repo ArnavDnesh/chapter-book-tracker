@@ -130,6 +130,165 @@
     return PALETTES[hash % PALETTES.length];
   }
 
+    function readPageInputs(totalInput, readInput) {
+    totalInput.setCustomValidity('');
+    readInput.setCustomValidity('');
+
+    function invalid(input, message) {
+      input.setCustomValidity(message);
+      input.reportValidity();
+      return null;
+    }
+
+    if (totalInput.validity.badInput) {
+      return invalid(totalInput, 'Enter a valid total page count.');
+    }
+
+    if (readInput.validity.badInput) {
+      return invalid(readInput, 'Enter a valid number of pages read.');
+    }
+
+    const totalText = totalInput.value.trim();
+    const readText = readInput.value.trim();
+
+    const totalPages = totalText === '' ? null : Number(totalText);
+    const pagesRead = readText === '' ? 0 : Number(readText);
+
+    if (
+      totalPages !== null &&
+      (!Number.isSafeInteger(totalPages) || totalPages <= 0)
+    ) {
+      return invalid(totalInput, 'Total pages must be a positive whole number.');
+    }
+
+    if (!Number.isSafeInteger(pagesRead) || pagesRead < 0) {
+      return invalid(readInput, 'Pages read must be zero or a positive whole number.');
+    }
+
+    if (totalPages === null && pagesRead > 0) {
+      return invalid(totalInput, 'Enter the total pages before recording progress.');
+    }
+
+    if (totalPages !== null && pagesRead > totalPages) {
+      return invalid(readInput, 'Pages read cannot exceed the total pages.');
+    }
+
+    return { totalPages, pagesRead };
+  }
+
+  function makeProgressSection(book) {
+    const section = element('div', 'reading-progress');
+    const total = book.totalPages ?? null;
+    const read = book.pagesRead ?? 0;
+
+    if (total !== null) {
+      // Use floor so an unfinished book never displays 100%.
+      const percentage = Math.floor((read / total) * 100);
+
+      const heading = element('div', 'progress-heading');
+      heading.append(
+        element('span', '', `${read} of ${total} pages`),
+        element('strong', '', `${percentage}%`)
+      );
+
+      const meter = element('progress', 'page-meter');
+      meter.max = total;
+      meter.value = read;
+      meter.setAttribute(
+        'aria-label',
+        `Reading progress for ${book.title}: ${read} of ${total} pages`
+      );
+
+      section.append(heading, meter);
+    } else {
+      section.append(
+        element('p', 'progress-placeholder', 'Every page is progress.')
+      );
+    }
+
+    const details = element('details', 'progress-editor');
+    const summary = element(
+      'summary',
+      '',
+      total === null ? 'Add page counts' : 'Update pages'
+    );
+
+    const editor = element('form', 'page-editor-form');
+    editor.noValidate = true;
+
+    // Wrapping each input in a label gives it an accessible name.
+    function makeField(labelText, value, minimum) {
+      const label = element('label', 'page-label', labelText);
+      const input = element('input', '');
+
+      input.type = 'number';
+      input.min = String(minimum);
+      input.step = '1';
+      input.inputMode = 'numeric';
+      input.value = value === null ? '' : String(value);
+
+      input.addEventListener('input', () => {
+        input.setCustomValidity('');
+      });
+
+      label.append(input);
+      return { label, input };
+    }
+
+    const totalField = makeField('Total pages', total, 1);
+    const readField = makeField('Pages read', read, 0);
+
+    const fields = element('div', 'page-inputs');
+    fields.append(totalField.label, readField.label);
+
+    const saveButton = element(
+      'button',
+      'button secondary',
+      'Save progress'
+    );
+    saveButton.type = 'submit';
+
+    editor.append(fields, saveButton);
+
+    editor.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const progress = readPageInputs(
+        totalField.input,
+        readField.input
+      );
+
+      if (!progress) return;
+
+      const currentBook = books.find((item) => item.id === book.id);
+      if (!currentBook) return;
+
+      currentBook.totalPages = progress.totalPages;
+      currentBook.pagesRead = progress.pagesRead;
+
+      const saved = saveBooks();
+      render();
+
+      // Rendering replaces cards, so restore keyboard focus.
+      const updatedCard = [...document.querySelectorAll('.book-card')]
+        .find((card) => card.dataset.id === book.id);
+
+      updatedCard
+        ?.querySelector('.progress-editor summary')
+        ?.focus();
+
+      showToast(
+        saved
+          ? 'Reading progress saved.'
+          : 'Progress updated in this tab only. Browser storage is unavailable.'
+      );
+    });
+
+    details.append(summary, editor);
+    section.append(details);
+
+    return section;
+  }
   function makeBookCard(book) {
     const card = element('article', 'book-card');
     card.dataset.id = book.id;
@@ -163,7 +322,7 @@
     const dateLabel = element('span', 'date-label', date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
     dateLabel.title = `Added ${date.toLocaleDateString()}`;
     bottom.append(select, dateLabel);
-    info.append(bottom);
+    info.append(bottom, makeProgressSection(book));
     card.append(cover, info);
     return card;
   }
@@ -220,11 +379,25 @@
   function closeDialog() { dialog.close(); }
   dialog.addEventListener('close', () => { if (returnFocus?.isConnected) returnFocus.focus(); });
 
-  function newBook(title, author, status) {
+  function newBook(
+    title,
+    author,
+    status,
+    totalPages = null,
+    pagesRead = 0
+  ) {
     return {
-      id: globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-      title, author, status,
-      createdAt: Math.max(Date.now(), (books[0]?.createdAt || 0) + 1)
+      id: globalThis.crypto?.randomUUID?.() ||
+        `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      title,
+      author,
+      status,
+      totalPages,
+      pagesRead,
+      createdAt: Math.max(
+        Date.now(),
+        (books[0]?.createdAt || 0) + 1
+      )
     };
   }
 
@@ -246,7 +419,20 @@
     if (firstInvalid) { firstInvalid.focus(); return; }
     const status = $('#book-status').value;
     if (!Object.hasOwn(STATUSES, status)) return;
-    books.unshift(newBook(title, author, status));
+        const progress = readPageInputs(
+      $('#book-total-pages'),
+      $('#book-pages-read')
+    );
+
+    if (!progress) return;
+
+    books.unshift(newBook(
+      title,
+      author,
+      status,
+      progress.totalPages,
+      progress.pagesRead
+    ));
     const saved = saveBooks();
     filter = 'all'; query = ''; search.value = '';
     render(); closeDialog();
