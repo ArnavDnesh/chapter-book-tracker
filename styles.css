@@ -16,3 +16,275 @@ dialog{border:1px solid #e2e5d9;border-radius:16px;background:var(--paper);color
 @media(min-width:701px) and (max-width:960px){.hero-art{transform:scale(.67);margin-left:-130px;margin-right:-35px}}
 @media(max-width:700px){.hero-art{display:none}.hero{min-height:270px}.hero-description{max-width:360px}.hero .eyebrow{font-size:8px;letter-spacing:1.2px}.stat-label{font-size:9px;max-width:74px}.stat{min-height:60px}}
 @media(max-width:420px){.hero{min-height:270px}.hero-description{max-width:310px}.hero .eyebrow{font-size:8px}.filter-tab{font-size:11px}.stat-label{font-size:9px}.sort-note{font-size:9px}}
+
+
+/* Chapter: interface refinements */
+
+html {
+  scroll-padding-top: 110px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(249, 248, 244, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.button {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Give each overview number its own clear surface. */
+.stats {
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.stat {
+  justify-content: flex-start;
+  padding: 18px 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px #243d3205;
+  transition: border-color 180ms, box-shadow 180ms;
+}
+
+.stat:last-child {
+  border-right: 1px solid var(--line);
+}
+
+.stat[aria-pressed="true"] {
+  border-color: #71917b;
+  box-shadow: 0 0 0 2px #204a3b0c;
+}
+
+.stat-label {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #596653;
+}
+
+.hero-description {
+  font-size: 14px;
+}
+
+.result-count,
+.book-author {
+  font-size: 12px;
+  color: #5f6e60;
+}
+
+/* Make filtering feel like a single, coordinated control. */
+.filter-tabs {
+  padding: 4px;
+  border-radius: 12px;
+  background: #eef1e9;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  min-height: 44px;
+  border-radius: 9px;
+}
+
+.filter-tab.active {
+  color: var(--green);
+  background: var(--surface);
+  box-shadow: 0 2px 6px #243d3210;
+}
+
+.search-field {
+  min-height: 46px;
+  border-radius: 12px;
+}
+
+.search-field input {
+  font-size: 14px;
+}
+
+/* Comfortable cards with restrained visual feedback. */
+.book-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 14px #243d3206;
+  animation: none;
+}
+
+.book-card:focus-within {
+  border-color: #71917b;
+}
+
+.book-info h3 {
+  line-height: 1.5;
+}
+
+.status-select {
+  min-height: 44px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+
+.delete-book,
+.icon-button {
+  width: 44px;
+  height: 44px;
+}
+
+.search-clear,
+.toast button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.book-card:hover {
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .book-card:hover {
+    transform: translateY(-4px);
+    border-color: #c4d0bf;
+    box-shadow: 0 14px 30px #243d3212;
+  }
+}
+
+/* Grid / list controls */
+.library-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.view-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.view-switch {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #eef1e9;
+  border-radius: 12px;
+}
+
+.view-switch button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #596653;
+  font-weight: 600;
+}
+
+.view-switch button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--green);
+  box-shadow: 0 2px 6px #243d3210;
+}
+
+/* Compact layout uses the same books and controls. */
+.book-grid.list-view {
+  grid-template-columns: 1fr;
+}
+
+.book-grid.list-view .book-card {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+}
+
+.book-grid.list-view .book-cover {
+  height: 100%;
+  min-height: 160px;
+  border-bottom: 0;
+}
+
+.book-grid.list-view .mini-book,
+.book-grid.list-view .book-card:hover .mini-book {
+  flex-shrink: 0;
+  transform: scale(0.65) rotate(-5deg);
+}
+
+.book-grid.list-view .book-info {
+  align-self: center;
+}
+
+/* More readable, finger-friendly mobile layout. */
+@media (max-width: 700px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    gap: 10px;
+    padding: 14px 12px;
+  }
+
+  .stat-icon {
+    display: grid;
+    width: 34px;
+    height: 34px;
+  }
+
+  .stat-label {
+    max-width: none;
+    font-size: 11px;
+  }
+
+  .topbar .button {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .filter-tabs {
+    justify-content: flex-start;
+  }
+
+  .search-field input,
+  .form-field input,
+  .form-field select {
+    font-size: 16px;
+  }
+
+  .book-info h3 {
+    font-size: 15px;
+  }
+
+  .book-author {
+    font-size: 12px;
+  }
+
+  .book-grid.list-view .book-card {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-cover {
+    height: 190px;
+  }
+}
+
+/* Respect people who prefer less movement. */
+@media (prefers-reduced-motion: reduce) {
+  .book-card:hover,
+  .button:active {
+    transform: none;
+  }
+}
