@@ -27,7 +27,13 @@
 
 Add pages-read progress
 
-## 5. Add pages-read progress
+## 5. When I search for 'ben', nothing shows, but the book 'Aadujeevitham' by 'Benyamin' is in the list.
+
+With All books selected, searching for "ben" should show
+"Aadujeevitham" by "Benyamin". Search should match partial text
+in either the title or author, without case sensitivity--this applies to any book with any author or book name
+
+## 6. Add pages-read progress
 
 > Pages-read progress is good to be the next feature. can we work on that
 
