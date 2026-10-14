@@ -1,8 +1,5 @@
 # Prompt log — Chapter Book Tracker
 
-## Provenance
-
-The product brief and design request were supplied together in one user message. The five entries below are **important excerpts from that combined request**, grouped by purpose; they are not represented as five separate user/AI exchanges. The first three reproduce requirements that the user supplied from the official brief. The final two are the user's own additions. Implementation and verification were performed with the AI assistant. Arnav should review the code and rerun the demo before submitting or describing the work as personally verified.
 
 ## 1. Core behaviour
 
